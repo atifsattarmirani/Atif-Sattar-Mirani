@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Atif Sattar - Personal Portfolio">
+  <title>Atif Sattar | Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <a href="#home" class="logo">Atif<span>.</span></a>
+    <nav id="nav">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button id="themeToggle" class="theme-btn" aria-label="Toggle dark/light mode">🌙</button>
+      <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">WELCOME TO MY PORTFOLIO</p>
+        <h1>Hi, I'm <span>Atif Sattar</span></h1>
+        <h2>Web Development Student</h2>
+        <p class="intro">
+          I am learning web development and building clean, responsive websites
+          using HTML, CSS and JavaScript.
+        </p>
+        <div class="buttons">
+          <a href="#projects" class="btn primary">View My Projects</a>
+          <a href="#contact" class="btn secondary">Contact Me</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <div class="photo-ring">
+          <img src="profile.webp" alt="Atif Sattar">
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="section-title">
+        <p>GET TO KNOW ME</p>
+        <h2>About Me</h2>
+      </div>
+      <div class="about-card">
+        <p>
+          My name is <strong>Atif Sattar</strong>. I am learning web development
+          and improving my skills by creating practical projects. I enjoy
+          designing simple, modern and responsive websites and learning how
+          JavaScript makes websites interactive.
+        </p>
+        <p>
+          I have completed a CIT course and I am currently developing my
+          website development skills.
+        </p>
+      </div>
+    </section>
+
+    <section id="skills" class="section alt">
+      <div class="section-title">
+        <p>WHAT I CAN DO</p>
+        <h2>My Skills</h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card"><div class="skill-icon">H</div><h3>HTML</h3><p>Building structured and semantic web pages.</p></div>
+        <div class="skill-card"><div class="skill-icon">C</div><h3>CSS</h3><p>Creating responsive layouts and modern designs.</p></div>
+        <div class="skill-card"><div class="skill-icon">JS</div><h3>JavaScript</h3><p>Adding interaction and dynamic features.</p></div>
+        <div class="skill-card"><div class="skill-icon">CIT</div><h3>CIT Course</h3><p>Computer and information technology fundamentals.</p></div>
+        <div class="skill-card"><div class="skill-icon">WD</div><h3>Website Development</h3><p>Learning to create complete responsive websites.</p></div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="section-title">
+        <p>MY WORK</p>
+        <h2>Projects</h2>
+      </div>
+      <div class="projects-grid">
+        <article class="project-card">
+          <div class="project-top">MID-TERM</div>
+          <div class="project-content">
+            <h3>Mid-Term Exam Project</h3>
+            <p>A web project created as part of my mid-term examination using HTML, CSS and JavaScript.</p>
+            <a href="#" class="btn small disabled" onclick="return false;">Live Demo — Add Link</a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top">TO-DO APP</div>
+          <div class="project-content">
+            <h3>To-Do Application</h3>
+            <p>A simple task management application for adding, completing and managing daily tasks.</p>
+            <a href="#" class="btn small disabled" onclick="return false;">Live Demo — Add Link</a>
+          </div>
+        </article>
+      </div>
+      <p class="note">Replace the two “Add Link” buttons with your deployed Netlify or GitHub Pages URLs before submission.</p>
+    </section>
+
+    <section id="education" class="section alt">
+      <div class="section-title">
+        <p>MY LEARNING</p>
+        <h2>Education / Experience</h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="dot"></span>
+          <div><h3>CIT Course</h3><p>Completed / learning computer and information technology fundamentals.</p></div>
+        </div>
+        <div class="timeline-item">
+          <span class="dot"></span>
+          <div><h3>Website Development Course</h3><p>Learning HTML, CSS and JavaScript and building practical web projects.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+      <div class="section-title">
+        <p>LET'S CONNECT</p>
+        <h2>Contact Me</h2>
+      </div>
+      <div class="contact-grid">
+        <a class="contact-card" href="https://wa.me/923110362505" target="_blank" rel="noopener">
+          <span>💬</span><div><h3>WhatsApp</h3><p>03110362505</p></div>
+        </a>
+        <a class="contact-card" href="mailto:atifsattarmirani@gmail.com">
+          <span>✉️</span><div><h3>Email</h3><p>atifsattarmirani@gmail.com</p></div>
+        </a>
+        <a class="contact-card" href="#" onclick="showLinkedIn(); return false;">
+          <span>in</span><div><h3>LinkedIn</h3><p>Add your LinkedIn profile</p></div>
+        </a>
+        <a class="contact-card" href="CV.pdf" download>
+          <span>📄</span><div><h3>Download CV</h3><p>Add your CV as CV.pdf</p></div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> Atif Sattar. All Rights Reserved.</p>
+    <div><a href="#home">Home</a><a href="#contact">Contact</a></div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
