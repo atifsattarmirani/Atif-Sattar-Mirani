@@ -1,24 +1,190 @@
-const body=document.body;
-const themeToggle=document.getElementById("themeToggle");
-const menuBtn=document.getElementById("menuBtn");
-const nav=document.getElementById("nav");
+// =========================
+// Variables
+// =========================
+const deleteAllBtn = document.getElementById("deleteAllBtn");
+const taskInput = document.getElementById("taskInput");
+const priorityInput = document.getElementById("priority");
+const dueDateInput = document.getElementById("dueDate");
+const addBtn = document.getElementById("addBtn");
+const taskList = document.getElementById("taskList");
+const emptyState = document.getElementById("emptyState");
+const searchInput = document.getElementById("searchInput");
+const filterButtons = document.querySelectorAll(".filter");
+const totalTasks = document.getElementById("totalTasks");
+const activeTasks = document.getElementById("activeTasks");
+const completedTasks = document.getElementById("completedTasks");
+const progress = document.getElementById("progress");
+const progressText = document.getElementById("progressText");
+const themeBtn = document.getElementById("themeBtn");
 
-const savedTheme=localStorage.getItem("theme");
-if(savedTheme==="dark"){body.classList.add("dark");themeToggle.textContent="☀️";}
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let currentFilter = "all";
 
-themeToggle.addEventListener("click",()=>{
-  body.classList.toggle("dark");
-  const dark=body.classList.contains("dark");
-  themeToggle.textContent=dark?"☀️":"🌙";
-  localStorage.setItem("theme",dark?"dark":"light");
+// =========================
+// Add Task
+// =========================
+addBtn.addEventListener("click", addTask);
+taskInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") addTask();
 });
 
-menuBtn.addEventListener("click",()=>nav.classList.toggle("open"));
-document.querySelectorAll("nav a").forEach(link=>{
-  link.addEventListener("click",()=>nav.classList.remove("open"));
-});
-document.getElementById("year").textContent=new Date().getFullYear();
-
-function showLinkedIn(){
-  alert("Please add your LinkedIn profile URL in index.html before submitting your portfolio.");
+function addTask() {
+    const title = taskInput.value.trim();
+    if (title === "") {
+        alert("Please enter a task!");
+        return;
+    }
+    tasks.push({
+        id: Date.now(),
+        title,
+        priority: priorityInput.value,
+        dueDate: dueDateInput.value,
+        completed: false
+    });
+    saveTasks();
+    renderTasks();
+    taskInput.value = "";
+    dueDateInput.value = "";
+    priorityInput.value = "low";
+    taskInput.focus();
 }
+
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+// =========================
+// Render Tasks
+// =========================
+function renderTasks() {
+    taskList.innerHTML = "";
+    const searchText = searchInput.value.toLowerCase();
+    const filteredTasks = tasks.filter(task => {
+        const matchesSearch = task.title.toLowerCase().includes(searchText);
+        let matchesFilter = true;
+        if (currentFilter === "active") matchesFilter = !task.completed;
+        if (currentFilter === "completed") matchesFilter = task.completed;
+        return matchesSearch && matchesFilter;
+    });
+
+    emptyState.style.display = filteredTasks.length === 0 ? "block" : "none";
+
+    filteredTasks.forEach(task => {
+        const taskElement = document.createElement("div");
+        taskElement.className = `task ${task.completed ? "completed" : ""}`;
+        taskElement.innerHTML = `
+            <input type="checkbox" class="checkbox" ${task.completed ? "checked" : ""} onchange="toggleTask(${task.id})">
+            <div class="task-content">
+                <div class="task-title">${escapeHTML(task.title)}</div>
+                <div class="task-info">
+                    <span class="priority ${task.priority}">${getPriorityText(task.priority)}</span>
+                    ${task.dueDate ? `<span class="due-date">📅 ${formatDate(task.dueDate)}</span>` : ""}
+                </div>
+            </div>
+            <div class="task-actions">
+                <button class="action-btn edit-btn" onclick="editTask(${task.id})" title="Edit">✏️</button>
+                <button class="action-btn delete-btn" onclick="deleteTask(${task.id})" title="Delete">🗑️</button>
+            </div>`;
+        taskList.appendChild(taskElement);
+    });
+    updateStats();
+}
+
+function toggleTask(id) {
+    tasks = tasks.map(task => task.id === id ? {...task, completed: !task.completed} : task);
+    saveTasks();
+    renderTasks();
+}
+
+function deleteTask(id) {
+    if (!confirm("Are you sure you want to delete this task?")) return;
+    tasks = tasks.filter(task => task.id !== id);
+    saveTasks();
+    renderTasks();
+}
+
+function editTask(id) {
+    const task = tasks.find(task => task.id === id);
+    if (!task) return;
+    const newTitle = prompt("Edit your task:", task.title);
+    if (newTitle === null) return;
+    const trimmedTitle = newTitle.trim();
+    if (trimmedTitle === "") {
+        alert("Task cannot be empty!");
+        return;
+    }
+    task.title = trimmedTitle;
+    saveTasks();
+    renderTasks();
+}
+
+searchInput.addEventListener("input", renderTasks);
+filterButtons.forEach(button => {
+    button.addEventListener("click", function () {
+        filterButtons.forEach(btn => btn.classList.remove("active"));
+        this.classList.add("active");
+        currentFilter = this.dataset.filter;
+        renderTasks();
+    });
+});
+
+function updateStats() {
+    const total = tasks.length;
+    const completed = tasks.filter(task => task.completed).length;
+    const active = total - completed;
+    totalTasks.textContent = total;
+    activeTasks.textContent = active;
+    completedTasks.textContent = completed;
+    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+    progress.style.width = `${percentage}%`;
+    progressText.textContent = `${percentage}%`;
+}
+
+function getPriorityText(priority) {
+    if (priority === "high") return "🔴 High";
+    if (priority === "medium") return "🟡 Medium";
+    return "🟢 Low";
+}
+
+function formatDate(date) {
+    const dateObject = new Date(date + "T00:00:00");
+    return dateObject.toLocaleDateString("en-US", {day: "numeric", month: "short", year: "numeric"});
+}
+
+function escapeHTML(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// =========================
+// Dark Mode
+// =========================
+themeBtn.addEventListener("click", function () {
+    document.body.classList.toggle("dark");
+    const isDark = document.body.classList.contains("dark");
+    localStorage.setItem("darkMode", isDark);
+    themeBtn.textContent = isDark ? "☀️" : "🌙";
+});
+
+if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark");
+    themeBtn.textContent = "☀️";
+}
+
+// =========================
+// Delete All + Initial Render
+// =========================
+deleteAllBtn.addEventListener("click", deleteAllTasks);
+function deleteAllTasks() {
+    if (tasks.length === 0) {
+        alert("There are no tasks to delete!");
+        return;
+    }
+    if (!confirm("Are you sure you want to delete ALL tasks?")) return;
+    tasks = [];
+    saveTasks();
+    renderTasks();
+}
+
+renderTasks();
