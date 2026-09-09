@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Todo App</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app">
+
+        <!-- Header -->
+        <header class="header">
+            <div>
+                <h1>My Tasks 📝</h1>
+                <p>Organize your day and get things done.</p>
+            </div>
+
+            <button id="themeBtn" class="theme-btn">🌙</button>
+        </header>
+
+        <!-- Stats -->
+        <section class="stats">
+            <div class="stat-card">
+                <span id="totalTasks">0</span>
+                <p>Total</p>
+            </div>
+
+            <div class="stat-card">
+                <span id="activeTasks">0</span>
+                <p>Active</p>
+            </div>
+
+            <div class="stat-card">
+                <span id="completedTasks">0</span>
+                <p>Completed</p>
+            </div>
+        </section>
+
+        <!-- Add Task -->
+        <section class="task-form">
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="What do you need to do?"
+            >
+
+            <div class="form-row">
+
+                <select id="priority">
+                    <option value="low">🟢 Low</option>
+                    <option value="medium">🟡 Medium</option>
+                    <option value="high">🔴 High</option>
+                </select>
+
+                <input type="date" id="dueDate">
+
+                <button id="addBtn">+ Add Task</button>
+
+            </div>
+        </section>
+
+        <!-- Search -->
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍 Search tasks..."
+            >
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filters">
+    <div class="filters">
+    <button class="filter active" data-filter="all">All</button>
+    <button class="filter" data-filter="active">Active</button>
+    <button class="filter" data-filter="completed">Completed</button>
+
+    <button id="deleteAllBtn" class="delete-all">
+        🗑️ Delete All
+    </button>
+</div>
+
+</div>
+
+        </div>
+
+        <!-- Task List -->
+        <main id="taskList" class="task-list"></main>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state">
+            <div>📋</div>
+            <h2>No tasks found</h2>
+            <p>Add a task and start being productive!</p>
+        </div>
+
+        <!-- Progress -->
+        <section class="progress-section">
+            <div class="progress-header">
+                <span>Today's Progress</span>
+                <strong id="progressText">0%</strong>
+            </div>
+
+            <div class="progress-bar">
+                <div id="progress" class="progress"></div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
